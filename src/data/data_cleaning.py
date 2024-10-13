@@ -33,7 +33,7 @@ class DataPreprocessing:
             df.drop_duplicates(inplace=True)
           
             # Dropping the null values
-            df.dropna(inplace=True)
+            df=df.dropna()
 
             logging.info('Data Cleaning Successfully')
             return df
