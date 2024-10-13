@@ -92,7 +92,7 @@ class DataPreprocessing:
 
 if __name__=="__main__":
     raw_data_path='data/raw/raw.csv'
-    clean_data_path='data/raw/clean.csv'
+    clean_data_path='data/processed/clean.csv'
 
     data=DataPreprocessing(raw_data_path=raw_data_path,output_path=clean_data_path)
     print(data.process())
