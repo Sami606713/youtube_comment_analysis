@@ -13,11 +13,9 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 class DataTransformation:
-    def __init__(self,clean_data_path:str,train_output_path:str,
-                 test_output_path:str,transformer_path:str) -> None:
+    def __init__(self,clean_data_path:str,transformer_path:str) -> None:
+
         self.df=pd.read_csv(clean_data_path).dropna(subset=['clean_comment'])
-        self.train_output_path=train_output_path
-        self.test_output_path=test_output_path
         self.transformer_path=transformer_path
 
     def split_data(self,df):
@@ -44,7 +42,7 @@ class DataTransformation:
         """
         try:
             pipe=Pipeline(steps=[
-                ('convert_text_vector',CountVectorizer(max_features=15000))
+                ('convert_text_vector',CountVectorizer(max_features=8000))
             ])
 
             # build a transformer
@@ -92,28 +90,31 @@ class DataTransformation:
 
             # Concatenate sparse matrices with targets
             
-            logging.info("Concatenating the data")
-            train_array = hstack([x_train_transform, y_train.values.reshape(-1, 1)]).tocsr()
-            test_array = hstack([x_test_transform, y_test.values.reshape(-1, 1)]).tocsr()
+            # logging.info("Concatenating the data")
+            # train_array = hstack([x_train_transform, y_train.values.reshape(-1, 1)]).tocsr()
+            # test_array = hstack([x_test_transform, y_test.values.reshape(-1, 1)]).tocsr()
 
-            logging.info("Save the train and test array")
-            np.save(file=self.train_output_path,arr=train_array.toarray())
-            np.save(file=self.test_output_path,arr=test_array.toarray())
+            # logging.info("Save the train and test array")
+            # np.save(file=self.train_output_path,arr=train_array.toarray())
+            # np.save(file=self.test_output_path,arr=test_array.toarray())
 
             logging.info(f"saving the transformer at {self.transformer_path}")
             self.save_model(transformer,self.transformer_path)
             logging.info("Data Transformation Completed......")
+
+            return (
+                x_train_transform,x_test_transform,
+                y_train,y_test
+            )
+            
         except Exception as e:
             return str(e)
 
 
 if __name__=="__main__":
     clean_data_path='data/processed/clean.csv'
-    train_output_path='data/processed/train.npy'
-    test_output_path='data/processed/test.npy'
     transformer_path='models/transformer.pkl'
     
 
-    transformation=DataTransformation(clean_data_path,train_output_path,
-                                      test_output_path,transformer_path)
+    transformation=DataTransformation(clean_data_path,transformer_path)
     transformation.process()

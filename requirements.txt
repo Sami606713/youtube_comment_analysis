@@ -4,3 +4,8 @@ python-dotenv
 scikit_learn
 setuptools
 nltk
+python-dotenv
+matplotlib
+seaborn
+mlflow
+dagshub
