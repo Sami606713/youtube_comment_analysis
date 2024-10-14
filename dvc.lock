@@ -1,0 +1,25 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data/data_ingestion.py
+    deps:
+    - path: 
+        https://raw.githubusercontent.com/Himanshu-1703/reddit-sentiment-analysis/refs/heads/main/data/reddit.csv
+      hash: md5
+      checksum: '"72bd91cafc90b28b65f9f17e7da48cd0a227332f89f7cc1e61a0b5be4d317002"'
+      size: 6888934
+    - path: src/data/data_ingestion.py
+      hash: md5
+      md5: f0b178b26f0ca8d06c78715b2188d0e6
+      size: 1356
+  data_cleaning:
+    cmd: python src/data/data_cleaning.py
+    deps:
+    - path: data/raw/raw.csv
+      hash: md5
+      md5: 4144fea990fc973c5554efd820e8ae70
+      size: 6926181
+    - path: src/data/data_cleaning.py
+      hash: md5
+      md5: f25222d7a7aeeb2f499c247458882b17
+      size: 3131
