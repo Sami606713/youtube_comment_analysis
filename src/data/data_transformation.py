@@ -4,19 +4,26 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer
+from src.utils import read_congif,save_processor
 from sklearn.pipeline import Pipeline
 import pickle as pkl
 from scipy.sparse import hstack
 import os
 import logging
+import yaml
 
 logging.basicConfig(level=logging.INFO)
 
 class DataTransformation:
-    def __init__(self,clean_data_path:str,transformer_path:str) -> None:
+    def __init__(
+                self,clean_data_path:str,
+                transformer_path:str
+            ) -> None:
 
         self.df=pd.read_csv(clean_data_path).dropna(subset=['clean_comment'])
         self.transformer_path=transformer_path
+        self.config=read_congif()
+        
 
     def split_data(self,df):
         """
@@ -27,9 +34,10 @@ class DataTransformation:
             feature=df[['clean_comment']]
             target=df['category']
             
-            logging.info('Splitting the data into train and test')
+            logging.info(f'Splitting the data into train and test {self.config['data_split']}')
             
-            x_train,x_test,y_train,y_test=train_test_split(feature,target,test_size=0.2,random_state=42)
+            x_train,x_test,y_train,y_test=train_test_split(feature,target,test_size=self.config['data_split']['split_ratio'],
+                                                           random_state=self.config['data_split']['random_state'])
             logging.info('Data split successfully')
             
             return x_train,x_test,y_train,y_test
@@ -42,7 +50,7 @@ class DataTransformation:
         """
         try:
             pipe=Pipeline(steps=[
-                ('convert_text_vector',CountVectorizer(max_features=8000))
+                ('convert_text_vector',CountVectorizer(ngram_range=(1, 1), max_features=15000))
             ])
 
             # build a transformer
@@ -59,18 +67,6 @@ class DataTransformation:
             return final_pipe
         except Exception as e:
             return str(e)
-    
-    def save_model(self,model,output_path):
-        """
-        This function will save the model to the disk
-        """
-        try:
-            logging.info("Saving the model")
-            with open(output_path, 'wb') as file:
-                pkl.dump(model, file)
-        except Exception as e:
-            logging.error(f"Error in saving the model: {e}")
-            raise
 
     def process(self):
         """
@@ -89,17 +85,8 @@ class DataTransformation:
             x_test_transform=transformer.transform(x_test)
 
             # Concatenate sparse matrices with targets
-            
-            # logging.info("Concatenating the data")
-            # train_array = hstack([x_train_transform, y_train.values.reshape(-1, 1)]).tocsr()
-            # test_array = hstack([x_test_transform, y_test.values.reshape(-1, 1)]).tocsr()
-
-            # logging.info("Save the train and test array")
-            # np.save(file=self.train_output_path,arr=train_array.toarray())
-            # np.save(file=self.test_output_path,arr=test_array.toarray())
-
             logging.info(f"saving the transformer at {self.transformer_path}")
-            self.save_model(transformer,self.transformer_path)
+            save_processor(transformer,self.transformer_path)
             logging.info("Data Transformation Completed......")
 
             return (
@@ -117,4 +104,4 @@ if __name__=="__main__":
     
 
     transformation=DataTransformation(clean_data_path,transformer_path)
-    transformation.process()
+    x_train,x_test,y_train,y_test=transformation.process()

@@ -2,6 +2,12 @@
 import numpy as np
 from sklearn.metrics import r2_score,mean_absolute_error,mean_squared_error
 from sklearn.linear_model import LogisticRegression
+import mlflow.sklearn
+from sklearn.ensemble import StackingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import (
     accuracy_score,precision_score,recall_score,
@@ -10,6 +16,8 @@ from sklearn.metrics import (
 from src.data.data_transformation import DataTransformation
 import matplotlib.pyplot as plt
 import seaborn as sns
+import xgboost as xgb
+from src.utils import read_congif
 import mlflow
 import mlflow.sklearn
 from mlflow import MlflowClient
@@ -47,6 +55,7 @@ class ModelTraining:
         self.x_test=x_test
         self.y_train=y_train
         self.y_test=y_test
+        self.config=read_congif()
     
     
     def train_model(self):
@@ -62,8 +71,15 @@ class ModelTraining:
             y_test=self.y_test
 
             # Train the best model again and track them using mlflow
-            with mlflow.start_run(run_name="Trial Model"):
-                model=LogisticRegression()
+            with mlflow.start_run(run_name="Final Model"):
+                # model=self.stack_model()
+                 # Logistic Regression params
+                lr_params = self.config['model_params']['logistic_regression']
+                model=LogisticRegression(**lr_params, max_iter=1000)
+                # Log the parameters
+                model_params = model.get_params()
+                mlflow.log_params(model_params)
+
                 # Fit the pipeline
                 logging.info('Fit the model')
                 model.fit(x_train, y_train)
@@ -89,12 +105,6 @@ class ModelTraining:
                         for metric_name, metric_value in metrics.items():
                             mlflow.log_metric(f"{label} {metric_name}", metric_value)
 
-                # Log the model
-                mlflow.sklearn.log_model(model, "Model")
-
-                # Log the parameters
-                mlflow.log_params({"model":model.get_params()})
-
                 # Log the confusion matrix plot
                 plt.figure(figsize=(8, 6))
                 sns.heatmap(confusion_mat, annot=True, fmt='d', cmap='Blues',
@@ -109,28 +119,57 @@ class ModelTraining:
                 plt.close()
                 mlflow.log_artifact("reports/confusion_matrix.png")
 
-                # # Log the data as an artifact
-                # mlflow.log_artifact("data/processed/clean.csv")
+                # log and save the model
+                mlflow.sklearn.log_model(model, "model")
+
+                # Save the run details (this will generate a unique run ID)
+                run_id = mlflow.active_run().info.run_id
+
+                # register the model
+                mlflow.register_model(f"runs:/{run_id}/model", "Best_Model")
 
         except Exception as e:
             logging.error(f"Error in training the model: {e}")
             raise
     
-    # def register_model(self,model_name,final_model):
-    #     """
-    #     This function will save the model to mlfow
-    #     """
-    #     try:
-    #         logging.info("Register the model.")
-    #         client = MlflowClient()
-    #         latest_versions = final_model.version
+    def stack_model(self):
+        """
+        This fun can build the hybrid model.
+        base model: 3
+        meta learner: 1
+        """
+        try:
+            # Random Forest
+            random_forest_params = self.config['model_params']['random_forest']
 
-    #         # Transition the latest version to alais as dev
-    #         print(f"Model version {final_model.version}")
-    #         client.set_registered_model_alias(model_name, "dev", version=latest_versions)
+            # XGBoost Params
+            xgboost_params = self.config['model_params']['xgboost']
 
-    #     except Exception as e:
-    #         logging.error(f"Error in register the model: {e} with version {latest_versions}")
+            # SVM Params
+            svm_params = self.config['model_params']['svm']
+
+            # Logistic Regression params
+            lr_params = self.config['model_params']['logistic_regression']
+
+            # knn parameter
+            knn_params = self.config['model_params']['knn']
+            # Base Model
+            base_models = [
+                ('Logistic Regression', LogisticRegression(**lr_params, max_iter=1000)),
+                ('RandomForest', RandomForestClassifier(**random_forest_params)),
+                ('XGBoost', xgb.XGBClassifier(**xgboost_params)),
+                ('SVM', SVC(**svm_params))
+            ]
+
+            # Meta-learner
+            meta_learner = KNeighborsClassifier(**knn_params)
+
+            # Create stacking classifier
+            stacking_classifier = StackingClassifier(estimators=base_models, final_estimator=meta_learner)
+
+            return stacking_classifier
+        except Exception as e:
+            return str(e)
     
 
 if __name__=="__main__":

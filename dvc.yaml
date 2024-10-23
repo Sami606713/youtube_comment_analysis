@@ -1,0 +1,18 @@
+stages:
+  data_ingestion:
+    cmd: python -m src.data.data_ingestion
+    deps:
+      - src/data/data_ingestion.py
+      - "https://raw.githubusercontent.com/Himanshu-1703/reddit-sentiment-analysis/refs/heads/main/data/reddit.csv"
+
+  data_cleaning:
+    cmd: python -m  src.data.data_cleaning
+    deps:
+      - src/data/data_cleaning.py
+      - data/raw/raw.csv
+    
+  model_training:
+    cmd: python -m src.models.train_model
+    deps:
+      - src/models/train_model.py
+  

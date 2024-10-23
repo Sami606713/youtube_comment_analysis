@@ -1,0 +1,28 @@
+data_split:
+  split_ratio: 0.2
+  random_state: 42
+
+model_params:
+  random_forest:
+    n_estimators: 498
+    max_depth: 15
+    min_samples_split: 6
+
+  xgboost:
+    n_estimators: 351
+    max_depth: 6
+    learning_rate: 0.14722032776673208
+
+  svm:
+    C: 4.495963163652689
+    kernel: "linear"
+    gamma: "auto"
+
+  logistic_regression:
+    C: 1.4135691198047053
+    solver: "liblinear"
+  
+  knn:
+    n_neighbors: 6
+    weights: "distance"
+    metric: 'euclidean'

@@ -9,3 +9,6 @@ matplotlib
 seaborn
 mlflow
 dagshub
+xgboost
+skorch
+bentoml

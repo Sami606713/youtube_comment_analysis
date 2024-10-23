@@ -25,6 +25,14 @@ class DataIngestion:
         try:
             logging.info('Reading the data')
             df=pd.read_csv(self.url)
+
+            logging.info("Rename the categories")
+            df['category']=df['category'].map({
+                                        -1:0,
+                                        0:1,
+                                        1:2
+                                    })
+
             logging.info(df.head())
             logging.info('Data read successfully')
 
