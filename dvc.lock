@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   data_ingestion:
-    cmd: python src/data/data_ingestion.py
+    cmd: python -m src.data.data_ingestion
     deps:
     - path: 
         https://raw.githubusercontent.com/Himanshu-1703/reddit-sentiment-analysis/refs/heads/main/data/reddit.csv
@@ -10,16 +10,23 @@ stages:
       size: 6888934
     - path: src/data/data_ingestion.py
       hash: md5
-      md5: f0b178b26f0ca8d06c78715b2188d0e6
-      size: 1356
+      md5: 94feb56401e48eac2e2b627754168011
+      size: 1636
   data_cleaning:
-    cmd: python src/data/data_cleaning.py
+    cmd: python -m  src.data.data_cleaning
     deps:
     - path: data/raw/raw.csv
       hash: md5
-      md5: 4144fea990fc973c5554efd820e8ae70
-      size: 6926181
+      md5: ed08851a4885f9345593b79d81dc78d9
+      size: 6917904
     - path: src/data/data_cleaning.py
       hash: md5
       md5: f25222d7a7aeeb2f499c247458882b17
       size: 3131
+  model_training:
+    cmd: python -m src.models.train_model
+    deps:
+    - path: src/models/train_model.py
+      hash: md5
+      md5: da81c992297ddc6abbaaeef1d70a6506
+      size: 7173
