@@ -16,3 +16,7 @@ stages:
     deps:
       - src/models/train_model.py
   
+  model_evulation:
+    cmd: python -m src.models.evalute
+    deps:
+      - src/models/evalute.py

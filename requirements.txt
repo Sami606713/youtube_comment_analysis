@@ -11,4 +11,5 @@ mlflow
 dagshub
 xgboost
 skorch
-bentoml
+fastapi
+unicorn

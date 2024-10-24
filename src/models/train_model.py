@@ -24,11 +24,9 @@ import numpy as np
 import pandas as pd
 import pickle as pkl
 import dagshub
-import bentoml
 import time
 import yaml
 import warnings
-import bentoml
 import logging
 import os
 warnings.filterwarnings('ignore')
@@ -125,12 +123,8 @@ class ModelTraining:
                 run_id = mlflow.active_run().info.run_id
 
                 # register the model
-                mlflow.register_model(f"runs:/{run_id}/model", "Best_Model")
-                self.set_model_alias("Best_Model",model)
-                # Save model using BentoML
-
-                bentoml.mlflow.save_model("best_model", model)
-                print("Model saved to BentoML store!")
+                model_version=mlflow.register_model(f"runs:/{run_id}/model", "Best_Model")
+                self.set_model_alias("Best_Model",model_version.version)
 
         except Exception as e:
             logging.error(f"Error in training the model: {e}")
@@ -175,21 +169,20 @@ class ModelTraining:
         except Exception as e:
             return str(e)
     
-    def set_model_alias(self, model_name, model):
+    def set_model_alias(self, model_name, version):
         """
-        This function will register the model with an alias.
+        This function will register the model version with an alias.
         """
         try:
             logging.info("Registering the model.")
             client = MlflowClient()
-            latest_version = model.version
 
-            # Transition the latest version to alias as 'dev'
-            logging.info(f"Model version {latest_version}")
-            client.set_registered_model_alias(model_name, "dev", version=latest_version)
+            # Transition the latest version to alias 'dev'
+            logging.info(f"Model version {version}")
+            client.set_registered_model_alias(model_name, "dev", version=version)
 
         except Exception as e:
-            logging.error(f"Error in registering the model: {e}")
+            logging.error(f"Error in registering the model alias: {e}")
 
 
 if __name__=="__main__":
