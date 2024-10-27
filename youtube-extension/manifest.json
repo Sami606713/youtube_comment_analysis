@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "name": "YouTube Comment Analyzer",
+    "version": "0.0.1",
+    "description": "Analyzes YouTube comments using a machine learning model.",
+    "permissions": [
+      "tabs",
+      "storage",
+      "activeTab",
+      "scripting"
+    ],
+    "background": {
+      "service_worker": "scripts/background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["*://www.youtube.com/*"],
+        "js": ["scripts/content.js"]
+      }
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "assets/icon.jpg"
+    }
+  }
+  

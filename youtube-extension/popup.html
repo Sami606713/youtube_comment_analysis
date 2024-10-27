@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Comments Analysis</title>
+    <link rel="stylesheet" href="styles/popup.css"> <!-- Link to the external CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Comments Analysis</h1>
+        <div id="Total"></div>
+        <div class="ratios">
+            <div class="ratio">
+                <h2>Positive Ratio</h2>
+                <p id="positiveRatio">Loading...</p>
+            </div>
+            <div class="ratio">
+                <h2>Negative Ratio</h2>
+                <p id="negativeRatio">Loading...</p>
+            </div>
+            <div class="ratio">
+                <h2>Neutral Ratio</h2>
+                <p id="neutralRatio">Loading...</p>
+            </div>
+        </div>
+
+        <div id="commentSection">Loading comments...</div>
+    </div>
+
+    <script src="scripts/popup.js"></script>
+    <script src="scripts/background.js"></script>
+</body>
+</html>

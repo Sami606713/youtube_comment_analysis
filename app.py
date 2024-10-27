@@ -1,3 +1,4 @@
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from pydantic import BaseModel
 from mlflow import MlflowClient
@@ -7,6 +8,7 @@ import mlflow
 import pickle as pkl
 import dagshub
 import uvicorn
+from typing import List
 import os
 load_dotenv()
 dagshub_token = os.getenv('DAGSHUB_TOKEN')
@@ -62,8 +64,25 @@ def load_model(model_name="Best_Model"):
 
 app = FastAPI()
 
+# set app origins
+# Define allowed origins, including your Chrome extension ID
+origins = [
+    "chrome-extension://jbimockbemodbcghgmichmnnblnkfclc",  # Replace with your actual extension ID
+    "http://127.0.0.1",  # Localhost, in case you're testing on the browser
+    "http://localhost"    # For localhost as well
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
+
 class PredictionSentiment(BaseModel):
-    text: str
+    text: list[str]
 
 @app.get("/")
 def read_root():
@@ -72,28 +91,26 @@ def read_root():
 @app.post("/predict")
 async def predict(comments: PredictionSentiment):
     try:
-        # Convert the input data to a pandas DataFrame
-        data = pd.DataFrame([comments.dict()],index=[0])
-
-        input_data=data.rename(columns={"text": 'clean_comment'})
-        print(input_data)
+        # Convert input data to DataFrame
+        data = pd.DataFrame(comments.text, columns=["clean_comment"])
+        print(data)
         processor = load_processor(processor_path='Models/transformer.pkl')
 
         # # transform the data
-        final_data= processor.transform(input_data)
+        final_data= processor.transform(data)
         # # load model
         model=load_model()
 
         # # prediction
         response=model.predict(final_data)
 
-        if response==0:
-            return "Negative"
-        elif response==1:
-            return "Neutral"
-        elif response==2:
-            return "Positive"
+        # Prepare structured results
+        results = []
+        for comment, sentiment in zip(comments.text, response):
+            sentiment_label = {0: "Negative", 1: "Neutral", 2: "Positive"}.get(sentiment, "Unknown")
+            results.append({"comment": comment, "sentiment": sentiment_label})
 
-        return {"prediction":response}
+        return {"predictions": results}  # Return structured predictions
+
     except Exception as e:
         return {"Error": str(e)}

@@ -32,8 +32,7 @@
 ## Built With
 
 - **Frameworks and Tools**:
-    - [Python 3.8+](https://www.python.org/)
-    - [BentoML](https://www.bentoml.com/)
+    - [Python 3.10+](https://www.python.org/)
     - [MLflow](https://mlflow.org/)
     - [Scikit-learn](https://scikit-learn.org/stable/)
     - [NLTK](https://www.nltk.org/)
@@ -41,6 +40,7 @@
     - [Seaborn](https://seaborn.pydata.org/)
     - [pandas](https://pandas.pydata.org/)
     - [NumPy](https://numpy.org/)
+    - [FastAPI](https://fastapi.tiangolo.com/)
     - [Dagshub](https://dagshub.com/)
 
 ---
@@ -72,12 +72,16 @@ This section provides an overview of the folder structure of the project.
 ├── models              # Contains saved machine learning models
 ├── notebooks           # Jupyter notebooks used for exploration and experimentation
 ├── src                 # Source code for the project
-│   ├── data            # Data processing scripts (e.g., ingestion, cleaning,transformation)
+│   ├── data            # Data processing scripts (e.g., ingestion, cleaning, transformation)
 │   ├── models          # Model definition, training, and evaluation scripts
 │   ├── utils           # Utility functions for reuse in the project
 │   └── tests           # Unit and integration test scripts
 ├── config              # Configuration files (e.g., config.yml)
 ├── reports             # Reports like visualizations, logs, or results
+├── youtube-extension   # Chrome Extension for YouTube comments sentiment analysis
+│   ├── assets          # Assets like icons
+│   ├── scripts         # JavaScript files for the extension
+│   ├── styles          # CSS for extension UI
 ├── README.md           # Project documentation (this file)
 ├── requirements.txt    # List of required packages and dependencies
 ├── LICENSE             # License file for the project
@@ -117,4 +121,10 @@ This section provides an overview of the folder structure of the project.
 ## Model Evaluation and Registration
 - **Objective**: Evaluate the model and register it for future use.
 - **Action**: After evaluation, the model is registered in the **MLflow** model registry to ensure version control and future usability.
+---
+
+## API Endpoint
+- **Objective**: Create an API endpoint for making predictions.
+- **Action**: Load the model from the **MLflow registry** and use it to perform predictions via the API.
+
 ---

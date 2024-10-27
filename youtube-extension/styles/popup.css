@@ -1,0 +1,157 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #2e8bc0, #f8bf03); /* Blue to soft pink gradient */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    animation: backgroundAnimation 12s infinite alternate; /* Background animation */
+}
+
+/* Background Animation */
+@keyframes backgroundAnimation {
+    0% {
+        background: linear-gradient(135deg, #2e8bc0, #b9fa05);
+    }
+    50% {
+        background: linear-gradient(135deg, #6dd5ed, #3b05fc);
+    }
+    100% {
+        background: linear-gradient(135deg, #ff4b1f, #ff416c); /* New gradient colors */
+    }
+}
+
+/* Container Styling */
+.container {
+    max-width: 600px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out; /* Animation on load */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Rainbow Title Styling */
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet); /* Rainbow gradient */
+    background-size: 400%; /* Extend the size for smooth animation */
+    background-clip: text;
+    -webkit-background-clip: text; /* For Safari */
+    color: transparent; /* Hide the original text color */
+    animation: rainbowAnimation 8s linear infinite; /* Continuous rainbow animation */
+}
+
+/* Rainbow Animation */
+@keyframes rainbowAnimation {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 100%;
+    }
+}
+
+/* Ratios Section Styling */
+.ratios {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.ratio {
+    background: linear-gradient(135deg, #f9f9f9, #e0fbfc); /* Light pastel gradient */
+    border-radius: 15px;
+    padding: 20px;
+    width: 30%; /* Adjust width for three columns */
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s; /* Smooth transition for effects */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    animation: scaleIn 0.5s ease-in-out; /* Animation for ratio boxes */
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.ratio:hover {
+    transform: translateY(-15px); /* Lift effect on hover */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #ffb3b3, #c4f1f9); /* Lighter gradient on hover */
+}
+
+.ratio h2 {
+    font-size: 24px;
+    color: #ff0000; /* Teal color */
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Slightly increased spacing */
+}
+
+.ratio p {
+    font-size: 32px;
+    color: #264653; /* Dark blue-gray */
+    font-weight: bold;
+    transition: color 0.3s; /* Smooth transition for text color */
+}
+
+.ratio:hover p {
+    color: #e63946; /* Change color on hover */
+}
+
+/* Comment Section Styling */
+#commentSection {
+    margin-top: 20px;
+    text-align: left;
+    max-height: 300px; /* Limit the height for better UI */
+    overflow-y: auto; /* Scroll if comments exceed height */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    transition: background 0.3s; /* Smooth transition */
+}
+
+.comment {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 15px; /* Increased padding */
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+.comment:hover {
+    background: #e0fbfc; /* Highlight on hover */
+    transform: scale(1.02); /* Slightly enlarge comment on hover */
+}
