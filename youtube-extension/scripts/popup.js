@@ -1,40 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Send message to background script to fetch comments
   chrome.runtime.sendMessage({ action: "fetchComments" }, (response) => {
-      if (response.error) {
+      if (response?.error) { // Check if response exists and has an error
           alert(response.error); // Display error to user
           return;
       }
-  }); // Corrected closing parenthesis here
+  });
 
   // Listen for the updateUI action from background script
-//   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//       if (request.action === "updateUI") {
-//           chrome.storage.local.get(['comments'], (data) => {
-//               if (data.comments) {
-//                   displayComments(data.comments);
-//               }
-//           });
-//       }
-//   });
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "updateUI") {
+        // Retrieve analysis results from chrome storage
+        chrome.storage.local.get(['analysisResults'], (data) => {
+            const predictions = data.analysisResults?.predictions; // Access predictions array directly
+            
+            if (Array.isArray(predictions)) {
+                displayCommentsInTable(predictions); // Pass predictions array to display function
+            } else {
+                console.log('No analysis results found or data format mismatch.');
+            }
+        });
+    }
 });
-
-
-chrome.storage.local.get(['analysisResults'], (data) => {
-  const analysisResults = data.analysisResults;
-  
-  // Check if analysisResults exist
-  if (analysisResults && Array.isArray(analysisResults.predictions)) {
-      displayCommentsInTable(analysisResults.predictions);
-  } else {
-      console.log('No analysis results found.');
-  }
 });
 
 // Function to display comments and sentiments in a table
 function displayCommentsInTable(predictions) {
-  document.getElementById("Total").innerHTML=predictions.length;
+  document.getElementById("Total").innerHTML = predictions.length;
   const commentSection = document.getElementById('commentSection');
-  
+
   // Create a table element
   const table = document.createElement('table');
   table.border = '1'; // Add border for visibility
@@ -65,13 +59,19 @@ function displayCommentsInTable(predictions) {
   // Append the table to the comment section
   commentSection.innerHTML = ''; // Clear previous content
   commentSection.appendChild(table);
-  updateRatios(); 
+
+  // Update ratios based on predictions
+  updateRatios(predictions); 
 }
 
-// Function to update ratios (placeholder)
-function updateRatios() {
-  // Example implementation to update ratios
-  document.getElementById('positiveRatio').textContent = "50%"; // Replace with actual calculation
-  document.getElementById('negativeRatio').textContent = "30%"; // Replace with actual calculation
-  document.getElementById('neutralRatio').textContent = "20%"; // Replace with actual calculation
+// Function to update ratios based on prediction data
+function updateRatios(predictions) {
+  const total = predictions.length;
+  const positiveCount = predictions.filter(prediction => prediction.sentiment === 'Positive').length;
+  const negativeCount = predictions.filter(prediction => prediction.sentiment === 'Negative').length;
+  const neutralCount = predictions.filter(prediction => prediction.sentiment === 'Neutral').length;
+
+  document.getElementById('positiveRatio').textContent = `${((positiveCount / total) * 100).toFixed(2)}%`;
+  document.getElementById('negativeRatio').textContent = `${((negativeCount / total) * 100).toFixed(2)}%`;
+  document.getElementById('neutralRatio').textContent = `${((neutralCount / total) * 100).toFixed(2)}%`;
 }

@@ -3,6 +3,9 @@
     "name": "YouTube Comment Analyzer",
     "version": "0.0.1",
     "description": "Analyzes YouTube comments using a machine learning model.",
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self';"
+    },
     "permissions": [
       "tabs",
       "storage",

@@ -3,28 +3,28 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Updated font */
 }
 
 body {
-    background: linear-gradient(135deg, #2e8bc0, #f8bf03); /* Blue to soft pink gradient */
+    background-color: #121212; /* Dark background */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    animation: backgroundAnimation 12s infinite alternate; /* Background animation */
+    animation: backgroundAnimation 10s infinite alternate; /* Background animation */
 }
 
 /* Background Animation */
 @keyframes backgroundAnimation {
     0% {
-        background: linear-gradient(135deg, #2e8bc0, #b9fa05);
+        background-color: #121212;
     }
     50% {
-        background: linear-gradient(135deg, #6dd5ed, #3b05fc);
+        background-color: #1e1e1e;
     }
     100% {
-        background: linear-gradient(135deg, #ff4b1f, #ff416c); /* New gradient colors */
+        background-color: #0d0d0d;
     }
 }
 
@@ -32,10 +32,10 @@ body {
 .container {
     max-width: 600px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    background-color: #1e1e1e; /* Dark container */
     padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 20px; /* More pronounced rounding */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); /* Stronger shadow */
     text-align: center;
     animation: fadeIn 0.5s ease-in-out; /* Animation on load */
 }
@@ -52,45 +52,67 @@ body {
     }
 }
 
-/* Rainbow Title Styling */
+/* Title Styling */
 h1 {
-    font-size: 36px;
+    font-size: 40px; /* Larger title size */
     margin-bottom: 20px;
+    color: #ff4081; /* Vibrant pink */
     text-transform: uppercase;
-    letter-spacing: 3px;
-    background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet); /* Rainbow gradient */
-    background-size: 400%; /* Extend the size for smooth animation */
-    background-clip: text;
-    -webkit-background-clip: text; /* For Safari */
-    color: transparent; /* Hide the original text color */
-    animation: rainbowAnimation 8s linear infinite; /* Continuous rainbow animation */
+    letter-spacing: 3px; /* Increased letter spacing */
+    position: relative; /* Position for pseudo-element effect */
+    display: inline-block; /* Ensure the title stays on one line */
+    animation: titleAnimation 3s infinite; /* Continuous title animation */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle 2D shadow effect */
 }
 
-/* Rainbow Animation */
-@keyframes rainbowAnimation {
+@keyframes titleAnimation {
     0% {
-        background-position: 0%;
+        transform: scale(1);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        transform: scale(1.05); /* Scale up */
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Enhanced shadow */
     }
     100% {
-        background-position: 100%;
+        transform: scale(1); /* Scale back */
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Revert shadow */
     }
+}
+
+/* Total Comments Block Styling */
+#totalComments {
+    font-size: 20px; /* Size for total comments */
+    color: #ffd740; /* Amber color for visibility */
+    margin: 20px 0;
+    padding: 10px;
+    background: #292929; /* Dark background */
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    transition: background 0.3s; /* Smooth transition */
+}
+
+#totalComments:hover {
+    background: #404040; /* Darker background on hover */
 }
 
 /* Ratios Section Styling */
 .ratios {
-    display: flex;
-    justify-content: space-between;
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Space out blocks evenly */
+    align-items: center; /* Align items in the center */
     margin-bottom: 20px;
 }
 
 .ratio {
-    background: linear-gradient(135deg, #f9f9f9, #e0fbfc); /* Light pastel gradient */
-    border-radius: 15px;
-    padding: 20px;
-    width: 30%; /* Adjust width for three columns */
+    background: #292929; /* Slightly lighter dark background */
+    border-radius: 10px;
+    padding: 20px; /* Uniform padding for all blocks */
+    flex: 1; /* Allow blocks to grow equally */
+    margin: 0 20px; /* Add horizontal margin for spacing */
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s, background 0.3s; /* Smooth transition for effects */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     animation: scaleIn 0.5s ease-in-out; /* Animation for ratio boxes */
 }
 
@@ -104,28 +126,27 @@ h1 {
 }
 
 .ratio:hover {
-    transform: translateY(-15px); /* Lift effect on hover */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, #ffb3b3, #c4f1f9); /* Lighter gradient on hover */
+    transform: translateY(-10px); /* Lift effect on hover */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: #404040; /* Darker on hover */
 }
 
 .ratio h2 {
     font-size: 24px;
-    color: #ff0000; /* Teal color */
+    color: #ffd740; /* Amber color */
     margin-bottom: 10px;
     text-transform: uppercase;
-    letter-spacing: 1px; /* Slightly increased spacing */
 }
 
 .ratio p {
     font-size: 32px;
-    color: #264653; /* Dark blue-gray */
+    color: #ffffff; /* White for contrast */
     font-weight: bold;
     transition: color 0.3s; /* Smooth transition for text color */
 }
 
 .ratio:hover p {
-    color: #e63946; /* Change color on hover */
+    color: #ff4081; /* Change to vibrant pink on hover */
 }
 
 /* Comment Section Styling */
@@ -135,23 +156,39 @@ h1 {
     max-height: 300px; /* Limit the height for better UI */
     overflow-y: auto; /* Scroll if comments exceed height */
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #444; /* Dark border */
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    background: #1e1e1e; /* Dark comment section */
     transition: background 0.3s; /* Smooth transition */
 }
 
 .comment {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    padding: 15px; /* Increased padding */
+    background-color: #292929; /* Slightly lighter for contrast */
+    border: 1px solid #444; /* Dark border */
+    padding: 15px; /* Consistent padding */
     margin-bottom: 10px;
     border-radius: 10px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
     transition: background 0.3s, transform 0.3s; /* Smooth transition */
 }
 
 .comment:hover {
-    background: #e0fbfc; /* Highlight on hover */
+    background: #383838; /* Highlight on hover */
     transform: scale(1.02); /* Slightly enlarge comment on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .ratio {
+        width: 100%; /* Stack items on smaller screens */
+        margin: 10px 0; /* Margin for spacing */
+    }
+
+    h1 {
+        font-size: 30px; /* Adjust title size for smaller screens */
+    }
+
+    #totalComments {
+        font-size: 18px; /* Adjust font size */
+    }
 }

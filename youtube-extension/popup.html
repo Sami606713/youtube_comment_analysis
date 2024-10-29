@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Comments Analysis</title>
     <link rel="stylesheet" href="styles/popup.css"> <!-- Link to the external CSS file -->
+    <script src="scripts/popup.js" defer></script> <!-- Use defer to ensure the script loads after the HTML -->
 </head>
 <body>
     <div class="container">
         <h1>YouTube Comments Analysis</h1>
-        <div id="Total"></div>
+        
+        <!-- Total Comments Section -->
+        <div id="Total">
+            <h2>Total Comments</h2>
+        </div>
+
         <div class="ratios">
             <div class="ratio">
                 <h2>Positive Ratio</h2>
@@ -29,6 +35,5 @@
     </div>
 
     <script src="scripts/popup.js"></script>
-    <script src="scripts/background.js"></script>
 </body>
 </html>
