@@ -13,25 +13,33 @@
         
         <!-- Total Comments Section -->
         <div id="Total">
-            <h2>Total Comments</h2>
+            <h2 id="total_comm">Total Comments</h2>
+            <p id="totalComments">Loading...</p>
         </div>
 
         <div class="ratios">
-            <div class="ratio">
+            <div class="ratio" id="positiveRatioContainer">
                 <h2>Positive Ratio</h2>
-                <p id="positiveRatio">Loading...</p>
+                <p id="positiveRatio">200</p>
             </div>
-            <div class="ratio">
+            <div class="ratio" id="negativeRatioContainer">
                 <h2>Negative Ratio</h2>
-                <p id="negativeRatio">Loading...</p>
+                <p id="negativeRatio">10</p>
             </div>
-            <div class="ratio">
+            <div class="ratio" id="neutralRatioContainer">
                 <h2>Neutral Ratio</h2>
-                <p id="neutralRatio">Loading...</p>
+                <p id="neutralRatio">9</p>
             </div>
         </div>
+        
 
-        <div id="commentSection">Loading comments...</div>
+        <!-- Word Clound Section -->
+        <div class="w_cloud">
+            <h2>Word Cloud</h2>
+            <div id="wordCloud">
+                <img id="wordCloudImage" src="assets/icon.jpg" alt="Word Cloud" style="width: 100%; height: auto;">
+            </div> 
+        </div>
     </div>
 
     <script src="scripts/popup.js"></script>

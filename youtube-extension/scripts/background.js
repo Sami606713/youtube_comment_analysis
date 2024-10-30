@@ -41,21 +41,54 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
             fetchAllComments()
                 .then(allComments => {
-                    return fetch('http://127.0.0.1:8000/predict', {
+                    // Send the comments for sentiment analysis
+                    fetch('http://127.0.0.1:8000/predict', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ text: allComments })
-                    }).then(response => {
+                    })
+                    .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! Status: ${response.status}`);
                         }
                         return response.json();
-                    }).then(analysisResults => {
-                        chrome.storage.local.set({ comments: allComments, analysisResults: analysisResults});
+                    })
+                    .then(analysisResults => {
+                        // Store the analysis results
+                        chrome.storage.local.set({ comments: allComments, analysisResults: analysisResults });
                         console.log('Sentiment analysis results:', analysisResults);
 
-                        chrome.runtime.sendMessage({ action: "updateUI" });
-                        sendResponse({ success: true });
+                        // Now, generate the word cloud using the same comments
+                        return fetch('http://127.0.0.1:8000/generate_wordcloud/', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ text: allComments.join(" ") })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.blob(); // Fetch the word cloud image as a Blob
+                        })
+                        .then(blob => {
+                            const imageUrl = URL.createObjectURL(blob); // Create a temporary URL for the image
+
+                            // Store the image URL along with the analysis results
+                            chrome.storage.local.set({ wordcloudImageUrl: imageUrl });
+                            console.log('Word cloud generated and stored:', imageUrl);
+
+                            // Update the UI
+                            chrome.runtime.sendMessage({
+                                action: "updateUI",
+                                imageUrl: imageUrl,
+                                analysisResults: analysisResults
+                            });
+                            sendResponse({ success: true, imageUrl: imageUrl, analysisResults: analysisResults });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error during fetching or generating word cloud:', error);
+                        sendResponse({ error: error.message });
                     });
                 })
                 .catch(error => {

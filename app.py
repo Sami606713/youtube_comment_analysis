@@ -1,5 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
 from mlflow import MlflowClient
 from dotenv import load_dotenv
@@ -9,6 +10,10 @@ import pickle as pkl
 import dagshub
 import uvicorn
 from typing import List
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import requests
+import io
 import os
 load_dotenv()
 dagshub_token = os.getenv('DAGSHUB_TOKEN')
@@ -84,6 +89,9 @@ app.add_middleware(
 class PredictionSentiment(BaseModel):
     text: list[str]
 
+class CloudRequest(BaseModel):
+    text: str
+
 @app.get("/")
 def read_root():
     return {"Title": "Welcome to youtube comment Analysier"}
@@ -114,3 +122,47 @@ async def predict(comments: PredictionSentiment):
 
     except Exception as e:
         return {"Error": str(e)}
+
+@app.post("/generate_wordcloud/")
+async def generate_wordcloud(request:CloudRequest):
+    try:
+        text = request.text  
+        print(text)
+        # Generate word cloud
+        wordcloud = WordCloud(width=800, height=400).generate(text)
+
+        # Save the word cloud image to an in-memory file
+        img_io = io.BytesIO()
+        wordcloud.to_image().save(img_io, format="PNG")
+        img_io.seek(0)
+
+        return StreamingResponse(img_io, media_type="image/png")
+    except Exception as e:
+        return {"Error": str(e)}
+
+
+@app.post("/generate_summary/")
+async def generate_summary(text: str):
+    API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+    headers = {"Authorization": "Bearer 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"}
+
+    def query(payload):
+        response = requests.post(API_URL, headers=headers, json=payload)
+        try:
+            response_data = response.json()
+            # Check if summary is available in the response
+            if 'summary_text' in response_data[0]:
+                return response_data[0]['summary_text']
+            else:
+                return {"error": "Summarization model did not return a summary"}
+        except (ValueError, IndexError) as e:
+            return {"error": f"Failed to parse response: {str(e)}"}
+
+    # Use the provided 'text' as input for the summarization query
+    output = query({"inputs": text})
+    
+    # Raise an exception if there's an error
+    if isinstance(output, dict) and "error" in output:
+        raise HTTPException(status_code=500, detail=output["error"])
+    
+    return {"summary": output}

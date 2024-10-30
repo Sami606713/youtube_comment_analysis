@@ -3,192 +3,254 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Updated font */
+    font-family: 'Roboto', Arial, sans-serif;
 }
 
+/* Body and Background Styling */
 body {
-    background-color: #121212; /* Dark background */
+    background: linear-gradient(135deg, #ff7e5f, #feb47b, #ff7e5f);
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    animation: backgroundAnimation 10s infinite alternate; /* Background animation */
-}
-
-/* Background Animation */
-@keyframes backgroundAnimation {
-    0% {
-        background-color: #121212;
-    }
-    50% {
-        background-color: #1e1e1e;
-    }
-    100% {
-        background-color: #0d0d0d;
-    }
+    padding: 15px;
+    overflow-x: hidden;
+    transition: all 0.5s ease;
 }
 
 /* Container Styling */
 .container {
-    max-width: 600px;
+    max-width: 800px;
     width: 100%;
-    background-color: #1e1e1e; /* Dark container */
-    padding: 40px;
-    border-radius: 20px; /* More pronounced rounding */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
     text-align: center;
-    animation: fadeIn 0.5s ease-in-out; /* Animation on load */
+    animation: slideIn 0.7s ease;
 }
 
-/* Fade-in Animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Slide-in Animation */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Title Styling */
 h1 {
-    font-size: 40px; /* Larger title size */
+    font-size: 36px;
     margin-bottom: 20px;
-    color: #ff4081; /* Vibrant pink */
-    text-transform: uppercase;
-    letter-spacing: 3px; /* Increased letter spacing */
-    position: relative; /* Position for pseudo-element effect */
-    display: inline-block; /* Ensure the title stays on one line */
-    animation: titleAnimation 3s infinite; /* Continuous title animation */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle 2D shadow effect */
+    color: #ff7e5f;
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(90deg, 
+                red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400%; /* Adjust to control speed */
+    animation: rainbow 5s linear infinite;
 }
 
-@keyframes titleAnimation {
-    0% {
-        transform: scale(1);
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
-    50% {
-        transform: scale(1.05); /* Scale up */
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Enhanced shadow */
-    }
-    100% {
-        transform: scale(1); /* Scale back */
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Revert shadow */
-    }
+/* Rainbow Animation */
+@keyframes rainbow {
+    0% { color: #f14419; }
+    16% { color: #0dc1f8; }
+    33% { color: #fc1921; }
+    50% { color: #f7c31c; }
+    66% { color: #f018b3; }
+    83% { color: #560ffd; }
+    100% { color: #ee4212; }
 }
 
-/* Total Comments Block Styling */
+/* Total Comments */
 #totalComments {
-    font-size: 20px; /* Size for total comments */
-    color: #ffd740; /* Amber color for visibility */
-    margin: 20px 0;
-    padding: 10px;
-    background: #292929; /* Dark background */
+    font-size: 22px;
+    color: #ffffff;
+    margin: 25px 0;
+    padding: 15px;
+    background: #333a56;
     border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    transition: background 0.3s; /* Smooth transition */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
 }
 
+#total_comm {
+    color: black;
+    background-color: rgb(236, 234, 234);
+    border-radius: 10px;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0%; }
+    100% { background-position: 100%; }
+}
 #totalComments:hover {
-    background: #404040; /* Darker background on hover */
+    background: #444b6e;
 }
 
-/* Ratios Section Styling */
+/* Ratios Section */
 .ratios {
-    display: flex; /* Use flexbox for alignment */
-    justify-content: space-between; /* Space out blocks evenly */
-    align-items: center; /* Align items in the center */
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .ratio {
-    background: #292929; /* Slightly lighter dark background */
-    border-radius: 10px;
-    padding: 20px; /* Uniform padding for all blocks */
-    flex: 1; /* Allow blocks to grow equally */
-    margin: 0 20px; /* Add horizontal margin for spacing */
+    background: #2c3e50;
+    border-radius: 12px;
+    padding: 25px;
+    flex: 1;
+    min-width: 200px;
     text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s, background 0.3s; /* Smooth transition for effects */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    animation: scaleIn 0.5s ease-in-out; /* Animation for ratio boxes */
-}
-
-@keyframes scaleIn {
-    from {
-        transform: scale(0);
-    }
-    to {
-        transform: scale(1);
-    }
-}
-
-.ratio:hover {
-    transform: translateY(-10px); /* Lift effect on hover */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    background: #404040; /* Darker on hover */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
 }
 
 .ratio h2 {
-    font-size: 24px;
-    color: #ffd740; /* Amber color */
+    font-size: 22px;
+    color: #f6d365;
     margin-bottom: 10px;
-    text-transform: uppercase;
 }
 
 .ratio p {
-    font-size: 32px;
-    color: #ffffff; /* White for contrast */
+    font-size: 28px;
+    color: #ffffff;
     font-weight: bold;
-    transition: color 0.3s; /* Smooth transition for text color */
 }
 
-.ratio:hover p {
-    color: #ff4081; /* Change to vibrant pink on hover */
+.ratio:hover {
+    background: #34495e;
+    transform: translateY(-8px);
 }
 
-/* Comment Section Styling */
+/* Comment Section */
 #commentSection {
-    margin-top: 20px;
-    text-align: left;
-    max-height: 300px; /* Limit the height for better UI */
-    overflow-y: auto; /* Scroll if comments exceed height */
-    padding: 10px;
-    border: 1px solid #444; /* Dark border */
+    margin-top: 25px;
+    padding: 15px;
+    max-height: 350px;
+    overflow-y: auto;
     border-radius: 10px;
-    background: #1e1e1e; /* Dark comment section */
-    transition: background 0.3s; /* Smooth transition */
+    background: #333a56;
+    border: 1px solid #444b6e;
 }
 
 .comment {
-    background-color: #292929; /* Slightly lighter for contrast */
-    border: 1px solid #444; /* Dark border */
-    padding: 15px; /* Consistent padding */
-    margin-bottom: 10px;
+    background-color: #2c3e50;
+    padding: 15px;
+    margin-bottom: 12px;
     border-radius: 10px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s, transform 0.3s; /* Smooth transition */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
 }
 
 .comment:hover {
-    background: #383838; /* Highlight on hover */
-    transform: scale(1.02); /* Slightly enlarge comment on hover */
+    background-color: #34495e;
+    transform: scale(1.03);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .ratio {
-        width: 100%; /* Stack items on smaller screens */
-        margin: 10px 0; /* Margin for spacing */
-    }
+/* Comment Ration Style */
+#positiveRatioContainer {
+    background: #ffffff; /* Green for positive */
+    color: green;
+}
 
+#negativeRatioContainer {
+    background: #fdfcfc; /* Red for negative */
+    color: red;
+}
+
+#neutralRatioContainer {
+    background: #fafaf8; /* Yellow for neutral */
+    color: yellow;
+}
+
+/* Icon Styling */
+.ratio p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #fc0505;
+    font-weight: bold;
+    gap: 10px;
+}
+
+.ratio p::before {
+    font-family: "Font Awesome 5 Free"; /* Assuming you have Font Awesome */
+    font-weight: 900;
+}
+
+/*  */
+
+/* Word Cloud */
+.w_cloud {
+    background: #333a56;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.w_cloud h2 {
+    font-size: 28px;
+    color: #f6d365;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+#wordCloud {
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* Responsive Design
+@media (max-width: 768px) {
     h1 {
-        font-size: 30px; /* Adjust title size for smaller screens */
+        font-size: 28px;
     }
 
     #totalComments {
-        font-size: 18px; /* Adjust font size */
+        font-size: 18px;
+    }
+
+    .ratios {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .ratio h2 {
+        font-size: 20px;
+    }
+
+    .ratio p {
+        font-size: 26px;
     }
 }
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    #totalComments {
+        font-size: 16px;
+    }
+
+    .ratio h2 {
+        font-size: 18px;
+    }
+
+    .ratio p {
+        font-size: 24px;
+    }
+
+    #wordCloud {
+        font-size: 16px;
+    } 
+}*/
