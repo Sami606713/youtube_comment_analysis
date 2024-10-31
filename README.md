@@ -1,5 +1,6 @@
 ﻿# Youtube Comment AnaLysier
 - This project involves building a model that can function as a Chrome extension. When the user enables the extension, it automatically collects comments from a specific YouTube video and performs sentiment analysis on the comments. The model labels the comments based on their sentiment (positive, neutral, or negative), and visualizes the analysis through charts and graphs.
+![YouTube](reports/youtube_img.png)
 ---
 
 ## Table of Contents
@@ -14,10 +15,7 @@
 7. [Model Training](#model-training)
 8. [Model Evaluation and Registration](#model-evaluation-and-registration)
 8. [Deployment](#deployment)
-9. [Contributing](#contributing)
-10. [License](#license)
-11. [Contact](#contact)
-12. [Acknowledgements](#acknowledgements)
+9. [Extension Integration](#chrome-extension-integration)
 
 ---
 
@@ -126,5 +124,15 @@ This section provides an overview of the folder structure of the project.
 ## API Endpoint
 - **Objective**: Create an API endpoint for making predictions.
 - **Action**: Load the model from the **MLflow registry** and use it to perform predictions via the API.
+
+---
+# Chrome Extension Integration
+![YouTube](reports/extension.PNG)
+- **Objective**: We can integrate our model to chrome extension.
+- **Action**: Get the comments of the video and perform following features.
+
+    - **Ratio of comments**
+    - **Summary Of the comments**
+    - **Highlight Keywords**
 
 ---

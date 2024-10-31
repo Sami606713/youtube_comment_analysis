@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 
                 const analysisResults = await analysisResponse.json();
                 chrome.storage.local.set({ comments: allComments, analysisResults });
-                console.log('Sentiment analysis results:', analysisResults);
+                // console.log('Sentiment analysis results:', analysisResults);
 
                 // Generate the word cloud
                 const response = await fetch('http://127.0.0.1:8000/generate_wordcloud/', {
