@@ -19,16 +19,28 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 console.log('No analysis results found or data format mismatch.');
             }
-        });
-        // Retrieve word cloud image URL from chrome storage
-        chrome.storage.local.get(['wordcloudImageUrl'], (data) => {
-            const imageUrl = data.wordcloudImageUrl;
-            if (imageUrl) {
-                document.getElementById('wordCloud').src = imageUrl; // Display image in popup
-            } else {
-                console.log('No word cloud image URL found.');
-            }
-        });
+        }); 
+        // Word Cloud
+        chrome.storage.local.get("wordCloudImage", (result) => {
+          const wordCloudImage = document.getElementById('wordCloudImage');
+          if (wordCloudImage && result.wordCloudImage) {
+              wordCloudImage.src = result.wordCloudImage; // Set the Base64 image as src
+              wordCloudImage.alt = 'Generated Word Cloud';
+          }
+      });
+      // end Word Cloud
+
+      // Retrieve and display summary
+      chrome.storage.local.get('summary', (result) => {
+        const summaryElement = document.getElementById('comm_summary');
+        if (summaryElement && result.summary) {
+            summaryElement.innerText = result.summary;
+        } else {
+            console.error('No summary found in Chrome storage');
+        }
+      });
+    // End Summary
+
     }
 });
 });
