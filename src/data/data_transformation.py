@@ -34,7 +34,7 @@ class DataTransformation:
             feature=df[['clean_comment']]
             target=df['category']
             
-            logging.info(f'Splitting the data into train and test {self.config['data_split']}')
+            logging.info(f"Splitting the data into train and test {self.config['data_split']}")
             
             x_train,x_test,y_train,y_test=train_test_split(feature,target,test_size=self.config['data_split']['split_ratio'],
                                                            random_state=self.config['data_split']['random_state'])
