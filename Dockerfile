@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy the required files into the container
 COPY requirements.txt /app
+COPY Models/transformer.pkl /app/Models/
 COPY app.py /app
 COPY src/ /app/src/
 
