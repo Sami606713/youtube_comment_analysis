@@ -70,7 +70,7 @@ def load_model(model_name="Best_Model"):
 
 def preprocess_text(text:str):
     try:
-        preprocess=DataPreprocessing(raw_data_path='data/raw/raw.csv',output_path='data/processed/clean.csv')
+        preprocess=DataPreprocessing(raw_data_path='src/data/data_cleaning.py',output_path='src/data/data_cleaning.py')
         text=preprocess.text_preprocess(text)
         return text
     except Exception as e:
