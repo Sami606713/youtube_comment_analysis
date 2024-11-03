@@ -21,8 +21,8 @@ stages:
       size: 6917904
     - path: src/data/data_cleaning.py
       hash: md5
-      md5: f25222d7a7aeeb2f499c247458882b17
-      size: 3131
+      md5: 479887130d4f1e29f6b52556013b1096
+      size: 3145
   model_training:
     cmd: python -m src.models.train_model
     deps:

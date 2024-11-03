@@ -156,7 +156,7 @@ async def generate_wordcloud(request:CloudRequest):
 @app.post("/generate_summary/")
 async def generate_summary(request: SummaryRequest):
     API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
-    headers = {"Authorization": "Bearer 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"}
+    headers = {"Authorization": "Bearer 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"}
 
     def query(payload):
         try:
@@ -179,10 +179,10 @@ async def generate_summary(request: SummaryRequest):
     
     text=preprocess_text(text=text)
 
-    output = query({"inputs": text[:3000]})
+    output = query({"inputs": text[:300]})
     
     # Raise an exception if there's an error
     if isinstance(output, dict) and "error" in output:
         raise HTTPException(status_code=500, detail=output["error"])
-    
+    print(output)
     return {"summary": output}

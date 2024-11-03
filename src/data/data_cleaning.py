@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 class DataPreprocessing:
     def __init__(self,raw_data_path:str,output_path:str) -> None:
-        self.df=pd.read_csv(raw_data_path)
+        self.data_path=raw_data_path
         self.output_path=output_path
 
     def data_cleaning(self,df):
@@ -74,7 +74,7 @@ class DataPreprocessing:
         This fun is responsible for processing the data.
         """
         try:
-            df=self.df
+            df=pd.read_csv(self.data_path)
             # Cleaning the data
             df=self.data_cleaning(df)
 
