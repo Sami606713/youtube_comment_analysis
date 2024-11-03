@@ -13,3 +13,4 @@ xgboost
 skorch
 fastapi
 unicorn
+awscli

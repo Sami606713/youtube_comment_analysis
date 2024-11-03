@@ -1,5 +1,4 @@
 [core]
-    remote = origin
-['remote "origin"']
-    url = s3://dvc
-    endpointurl = https://dagshub.com/Sami606713/youtube_comment_analysis.s3
+    remote = myremote
+['remote "myremote"']
+    url = s3://youtubeomments
