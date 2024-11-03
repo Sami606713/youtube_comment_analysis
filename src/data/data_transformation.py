@@ -19,11 +19,9 @@ class DataTransformation:
                 self,clean_data_path:str,
                 transformer_path:str
             ) -> None:
-
         self.df=pd.read_csv(clean_data_path).dropna(subset=['clean_comment'])
         self.transformer_path=transformer_path
         self.config=read_congif()
-        
 
     def split_data(self,df):
         """
@@ -86,6 +84,9 @@ class DataTransformation:
 
             # Concatenate sparse matrices with targets
             logging.info(f"saving the transformer at {self.transformer_path}")
+            if not os.path.exists(self.transformer_path):
+                os.makedirs(self.transformer_path,exist_ok=True)
+
             save_processor(transformer,self.transformer_path)
             logging.info("Data Transformation Completed......")
 
