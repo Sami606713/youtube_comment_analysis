@@ -12,5 +12,5 @@ dagshub
 xgboost
 skorch
 fastapi
-unicorn
+uvicorn
 awscli
