@@ -43,12 +43,6 @@
 
 ---
 
-## Demo
-
-(Optional) If your project is deployed, link the demo here.
-
-For example:
-[View Live Demo](http://example.com)
 
 ## Features
 
@@ -58,7 +52,6 @@ List key features of the project:
 - Visualizes results through charts for easy understanding.
 - Helps content creators quickly review and analyze audience feedback.
 - Summerize the whole comment.
-
 ## Project Structure
 
 This section provides an overview of the folder structure of the project.
