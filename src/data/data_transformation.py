@@ -89,10 +89,7 @@ class DataTransformation:
             save_processor(transformer,self.transformer_path)
             logging.info("Data Transformation Completed......")
 
-            return (
-                x_train_transform,x_test_transform,
-                y_train,y_test
-            )
+            return x_train_transform,x_test_transform,y_train,y_test
             
         except Exception as e:
             return str(e)
