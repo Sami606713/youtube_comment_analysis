@@ -84,8 +84,8 @@ class DataTransformation:
 
             # Concatenate sparse matrices with targets
             logging.info(f"saving the transformer at {self.transformer_path}")
-            if not os.path.exists(self.transformer_path):
-                os.makedirs(self.transformer_path,exist_ok=True)
+            # if not os.path.exists(self.transformer_path):
+            os.makedirs(os.path.dirname(self.transformer_path), exist_ok=True)
 
             save_processor(transformer,self.transformer_path)
             logging.info("Data Transformation Completed......")
