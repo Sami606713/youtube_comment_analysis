@@ -129,3 +129,7 @@ This section provides an overview of the folder structure of the project.
     - **Highlight Keywords**
 
 ---
+
+# Deployment
+- After creating the extensio we will deploy the app on `AWS` EC2.
+- Here is the public IP `http://ec2-51-20-183-103.eu-north-1.compute.amazonaws.com/`.
