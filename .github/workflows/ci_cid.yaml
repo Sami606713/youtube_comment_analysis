@@ -77,3 +77,21 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/youtube_comment_analyser:latest
+
+  deployment_job:
+    needs: docker_job  # This ensures this job runs only after 'docker_job' is successful
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/youtube_comment_analyser:latest
+            docker stop my-app || true
+            docker rm my-app || true
+            docker run -d -p 80:8000 --name my-app \
+              -e DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }} \
+              ${{ secrets.DOCKER_USERNAME }}/youtube_comment_analyser:latest
